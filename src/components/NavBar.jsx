@@ -37,7 +37,7 @@ const NavBar = () => {
             {["Features", "Pricing", "Testimonials"].map((item, index) => (
               <a
                 key={index}
-                href="nav_link"
+                href={`#${item.toLowerCase()}`}
                 className="text-sm hover:text-indigo-300/90 hover:-translate-y-1 ease-out transition-all duration-300"
               >
                 {item}
