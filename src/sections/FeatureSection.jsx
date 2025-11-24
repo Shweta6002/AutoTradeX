@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { features } from "../assets/data";
 
+
 const FeatureSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
@@ -29,6 +30,7 @@ const FeatureSection = () => {
 
   return (
     <section id="features" className="container mx-auto px-4 py-24">
+
 
       {/* Title */}
       <div className="max-w-2xl mb-20">

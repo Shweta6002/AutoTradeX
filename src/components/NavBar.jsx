@@ -1,6 +1,11 @@
 import { Command } from "lucide-react";
 import { useState, useEffect } from "react";
 
+import gsap from "gsap";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+
+gsap.registerPlugin(ScrollToPlugin);
+
 const NavBar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -35,13 +40,19 @@ const NavBar = () => {
 
           <div className="hidden md:flex centered-row gap-6">
             {["Features", "Pricing", "Testimonials"].map((item, index) => (
-              <a
+              <button
                 key={index}
-                href={`#${item.toLowerCase()}`}
+                onClick={() => {
+                  gsap.to(window, {
+                    duration: 1,
+                    scrollTo: `#${item.toLowerCase()}`,
+                    ease: "power2.out",
+                  });
+                }}
                 className="text-sm hover:text-indigo-300/90 hover:-translate-y-1 ease-out transition-all duration-300"
               >
                 {item}
-              </a>
+              </button>
             ))}
 
             {/* Button */}

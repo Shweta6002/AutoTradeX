@@ -1,9 +1,21 @@
-import { Command, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
 
 const HeroSection = () => {
   console.log("HeroSection rendered");
+
+  const sectionRef = useRef(null);
+
+  const { scrollYProgress: pageScroll } = useScroll();
+  const rotateX = useTransform(pageScroll, [0, 0.2], [30, 0]);
+
   return (
-    <section className="relative container mx-auto px-4 pt-40 pb-20 justify-center items-center flex flex-col">
+    <section
+      ref={sectionRef}
+      id=""
+      className="relative container mx-auto px-4 pt-40 pb-20 justify-center items-center flex flex-col"
+    >
       {/* Decorative: Sub-title */}
       <div className="flex w-fit py-2 mb-4 px-4 cursor-pointer rounded-full glass ">
         <span className="text-sm font-medium text-zinc-300">
@@ -43,9 +55,17 @@ const HeroSection = () => {
         </div>
       </div>
       {/* Hero Image */}
-      <div className="relative mx-auto max-w-5xl mt-20">
-        <div className="glass rounded-xl overflow-hidden">
-          <img src="/chart2.png" alt="hero-image" className="w-full h-auto" />
+      <div className="relative mx-auto max-w-5xl mt-20">        
+        <div
+          className="relative mx-auto max-w-5xl mt-5"
+          style={{ perspective: "1000px" }}
+        >
+          <motion.div
+            style={{ rotateX, transformStyle: "preserve-3d" }}
+            className="glass rounded-xl overflow-hidden shadow-2xl"
+          >
+            <img src="/chart2.png" className="w-full h-auto opacity-[0.5]" />
+          </motion.div>
         </div>
       </div>
     </section>

@@ -1,14 +1,39 @@
 import HomePage from "./pages/HomePage";
 import NavBar from "./components/NavBar";
 
-const App = () => {
-  return <div className="text-zinc-100 bg-[#0f0f10] p-4">
-    <NavBar />
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import ScrollSmoother from "gsap/ScrollSmoother";
+import { useEffect } from "react";
 
-    <div>
-      <HomePage />
+const App = () => {
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+
+    ScrollSmoother.create({
+      wrapper: "#smooth-wrapper",
+      content: "#smooth-content",
+      smooth: 1.5,
+      effects: true,
+    });
+
+    return () => {
+      ScrollTrigger.killAll();
+    };
+  }, []);
+
+  return (
+    <div className="bg-[#0f0f10] text-zinc-100">
+      <NavBar />
+
+      {/* GSAP REQUIRED STRUCTURE */}
+      <div id="smooth-wrapper">
+        <div id="smooth-content" className="bg-[#0f0f10] text-zinc-100">
+          <HomePage />
+        </div>
+      </div>
     </div>
-  </div>;
+  );
 };
 
 export default App;

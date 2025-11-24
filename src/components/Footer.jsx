@@ -19,7 +19,7 @@ const Footer = () => {
                 </h3>
               </div>
               <p className="text-sm text-zinc-400/90">
-                Empowering traders with advanced forex trading solutions.
+                Empowering traders with advanced AutoTradeX trading solutions.
               </p>
               <div className="flex space-x-4">
                 <button variant="ghost" size="icon">
@@ -57,8 +57,7 @@ const Footer = () => {
 
           <div className="mt-8 pt-8 border-t border-white/10">
             <p className="text-sm text-zinc-400/80 text-center clash-display">
-              &copy; {new Date().getFullYear()} Footprint Arts. All rights
-              reserved.
+             Copyright ©️ AutoTradeX. All Rights Reserved.
             </p>
           </div>
         </div>
