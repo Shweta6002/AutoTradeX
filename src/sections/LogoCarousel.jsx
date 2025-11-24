@@ -12,7 +12,7 @@ const LogoCarousel = () => {
   const extendedLogos = [...logos, ...logos, ...logos];
 
   return (
-    <div className="w-full overflow-hidden cursor-pointer bg-[#0f0f10] backdrop-blur-sm py-12 mt-10">
+    <div className="opacity-[0.7] w-full overflow-hidden cursor-pointer bg-[#0f0f10] backdrop-blur-sm py-12 mt-10">
       <motion.div
         className="flex gap-40"
         initial={{ opacity: 1, x: 0 }}
