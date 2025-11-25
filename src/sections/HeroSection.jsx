@@ -29,7 +29,7 @@ const HeroSection = () => {
     }
   }, []);
 
-  const initialVisible = pathLength * 1.7; // 8% of line visible on load
+  const initialVisible = pathLength * 1.7; 
 
   // Scroll-driven animation values
   const strokeOffset = useTransform(

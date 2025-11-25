@@ -1,5 +1,9 @@
+import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import NavBar from "./components/NavBar";
+
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -10,16 +14,14 @@ const App = () => {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
-    ScrollSmoother.create({
+    const smoother = ScrollSmoother.create({
       wrapper: "#smooth-wrapper",
       content: "#smooth-content",
       smooth: 1.5,
       effects: true,
     });
 
-    return () => {
-      ScrollTrigger.killAll();
-    };
+    window.smoother = smoother; // <-- ADD THIS
   }, []);
 
   return (
@@ -29,7 +31,11 @@ const App = () => {
       {/* GSAP REQUIRED STRUCTURE */}
       <div id="smooth-wrapper">
         <div id="smooth-content" className="bg-[#0f0f10] text-zinc-100">
-          <HomePage />
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Routes>
         </div>
       </div>
     </div>
