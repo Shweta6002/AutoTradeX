@@ -57,7 +57,7 @@ export default function Login() {
       )}
 
       <div className="min-h-screen bg-[#0f0f10] flex items-center justify-center px-6">
-        <div className="glass opacity-[80%] bg-[#0f0f20] rounded-3xl w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 overflow-hidden">
+        <div className="glass bg-[#0f0f20] rounded-3xl w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 overflow-hidden">
           {/* LEFT SECTION */}
           <div className="flex flex-col justify-center px-10 py-16">
             <h2 className="text-4xl text-white font-bold mb-3">

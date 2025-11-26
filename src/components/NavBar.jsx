@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
@@ -8,8 +8,10 @@ gsap.registerPlugin(ScrollToPlugin);
 const NavBar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
-  const isHomePage = location.pathname === "/";
+  // IMPORTANT: Your homepage is "/HomePage", not "/"
+  const isHomePage = location.pathname.toLowerCase() === "/homepage";
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -17,24 +19,29 @@ const NavBar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // ---------------------------
-  //  MAIN SCROLL HANDLER
-  // ---------------------------
+  // -----------------------------------------------------
+  //  FIXED MAIN SCROLLER — SAFEST VERSION
+  // -----------------------------------------------------
   const goToSection = (id) => {
-    if (isHomePage) {
-      // Scroll normally
-      if (window.smoother) {
-        window.smoother.scrollTo(`#${id}`, true);
-      } else {
-        gsap.to(window, { scrollTo: `#${id}`, duration: 1 });
-      }
+    const smoother = window.smoother;
+    const target = document.querySelector(`#${id}`);
+
+    // 👉 If we are NOT on homepage → navigate + pass scroll param
+    if (!isHomePage) {
+      navigate(`/HomePage?scroll=${id}`);
+      return;
+    }
+
+    // 👉 If target doesn't exist yet → avoid GSAP error
+    if (!target) return;
+
+    // 👉 When on homepage → scroll using smoother (if exists)
+    if (smoother && smoother.scrollTo) {
+      smoother.scrollTo(target, true, "top top");
     } else {
-      // Redirect to landing with query param
-      window.location.href = `/?scroll=${id}`;
+      gsap.to(window, { duration: 1, scrollTo: target });
     }
   };
-
-  
 
   return (
     <header
@@ -48,7 +55,7 @@ const NavBar = () => {
         <nav className="centered-row justify-between h-full">
           {/* Logo */}
           <Link
-            to="/"
+            to="/HomePage"
             className="centered-row gap-2 hover:-translate-y-1 transition-all ease-out duration-200"
           >
             <img src="/logo.png" className="w-5 h-5" />
@@ -80,7 +87,7 @@ const NavBar = () => {
               Testimonials
             </button>
 
-            {/* CTA Button */}
+            {/* CTA */}
             <Link
               to="/login"
               className="clash-display text-base bg-gradient-to-r from-[#2563ea] to-[#143680] px-4 py-2 rounded-full hover:-translate-y-0.5 transition-all ease-out duration-200 hover:shadow-lg hover:shadow-indigo-900"
@@ -89,7 +96,7 @@ const NavBar = () => {
             </Link>
           </div>
 
-          {/* Mobile Menu */}
+          {/* Mobile Toggle */}
           <div className="md:hidden glass p-1 rounded-md">
             <img src="/menu.svg" alt="menu.icon" />
           </div>

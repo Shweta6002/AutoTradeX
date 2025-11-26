@@ -6,22 +6,26 @@ import PricingSection from "../sections/PricingSection";
 import TestimonialSection from "../sections/TestimonialSection";
 import Footer from "../components/Footer";
 import { useEffect } from "react";
+import gsap from "gsap";
+import { useSearchParams } from "react-router-dom";
 
 const HomePage = () => {
   console.log("HomePage rendered");
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const section = params.get("scroll");
+  const [searchParams] = useSearchParams();
 
-    if (section) {
-      setTimeout(() => {
-        const element = document.getElementById(section);
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth" });
-        }
-      }, 300); // wait for layout to finish
-    }
-  }, []);
+  useEffect(() => {
+    const scrollId = searchParams.get("scroll");
+
+    if (!scrollId) return;
+
+    setTimeout(() => {
+      if (window.smoother) {
+        window.smoother.scrollTo(`#${scrollId}`, true);
+      } else {
+        gsap.to(window, { duration: 1, scrollTo: `#${scrollId}` });
+      }
+    }, 300);
+  }, [searchParams]);
 
   return (
     <div>
