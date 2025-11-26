@@ -17,12 +17,13 @@ const App = () => {
     const smoother = ScrollSmoother.create({
       wrapper: "#smooth-wrapper",
       content: "#smooth-content",
-      smooth: 1.5,
+      smooth: 3,
       effects: true,
     });
 
-    window.smoother = smoother; // <-- ADD THIS
+    window.smoother = smoother;
   }, []);
+
 
   return (
     <div className="bg-[#0f0f10] text-zinc-100">

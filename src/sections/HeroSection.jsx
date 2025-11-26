@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
+import { useSpring } from "framer-motion";
 
 const HeroSection = () => {
   console.log("HeroSection rendered");
@@ -15,7 +16,18 @@ const HeroSection = () => {
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
-    offset: ["start end", "end start"],
+    offset: ["-1.5 -0.2", "0.95 0"],
+  });
+
+
+  const clampedProgress = useTransform(scrollYProgress, (latest) => {
+    if (latest < 0) return 0;
+    if (latest > 1) return 1;
+    return latest;
+  });
+  const smoothProgress = useSpring(clampedProgress, {
+    stiffness: 15,
+    damping: 25,
   });
 
   // SVG PATH LENGTH AUTO-DETECTION
@@ -29,11 +41,11 @@ const HeroSection = () => {
     }
   }, []);
 
-  const initialVisible = pathLength * 1.7; 
+  const initialVisible = pathLength * 2.425;
 
   // Scroll-driven animation values
   const strokeOffset = useTransform(
-    scrollYProgress,
+    smoothProgress,
     [0, 1],
     [initialVisible, 0]
   );
@@ -49,7 +61,7 @@ const HeroSection = () => {
       <motion.svg
         className="absolute left-0 top-0 w-full pointer-events-none z-0"
         style={{
-          top: imgRef.current?.offsetTop ?? 800,
+          top: imgRef.current?.offsetTop ?? 600,
         }}
         viewBox="0 0 1940 2000"
         preserveAspectRatio="none"
@@ -62,13 +74,8 @@ const HeroSection = () => {
           strokeWidth="40"
           strokeLinecap="round"
           strokeDasharray={pathLength}
+          initial={false}
           filter="url(#glow)"
-          /** ✔ Fully hidden on load */
-          initial={{
-            strokeDashoffset: pathLength,
-            opacity: 0,
-          }}
-          /** ✔ Only scroll changes visibility/drawing */
           style={{
             strokeDashoffset: strokeOffset,
             opacity: lineOpacity,
